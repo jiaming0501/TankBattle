@@ -6,7 +6,7 @@ interface ObjFunction{
 }
 
 interface MovableFunction{
-    public void move(int x, int y, int direct, int speed);
+    public void move(int moveDirection);
     public boolean isValid(int x, int y);
 }
 

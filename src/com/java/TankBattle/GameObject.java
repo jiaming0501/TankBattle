@@ -1,17 +1,23 @@
 package src.com.java.TankBattle;
 
 import java.awt.*;
-
+import java.util.*;
 public class GameObject {
     int x, y;
-    String color;
+    int color;
+    java.util.List<Color> colorList = new ArrayList<>();
     Boolean visible;
     int life;
-    public GameObject(int x, int y, boolean visible, int life){
+    public GameObject(int x, int y, int color, boolean visible, int life){
         this.x = x;
         this.y = y;
+        this.color = color;
         this.visible = visible;
         this.life = life;
+        colorList.add(Color.BLUE);
+        colorList.add(Color.RED);
+        colorList.add(Color.YELLOW);
+        colorList.add(Color.MAGENTA);
     }
 
     public int getX() {
@@ -30,11 +36,11 @@ public class GameObject {
         this.y = y;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
