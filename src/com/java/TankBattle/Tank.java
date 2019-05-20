@@ -3,9 +3,13 @@ import java.util.*;
 import java.awt.*;
 
 public class Tank extends MovableObject implements ObjFunction, MovableFunction, AttackFunction{
-//    java.util.List<Bullet> Bullets = new LinkedList<Bullet>();
-    public Tank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive){
+
+    int bulletSize;
+    java.util.List<Bullet> Bullets = new LinkedList<Bullet>();
+
+    public Tank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int bulletSize){
         super(x, y, color, visible, life, speed, direction, alive);
+        this.bulletSize = bulletSize;
     }
     @Override
     public void show(Graphics g) {
@@ -40,18 +44,19 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
 
     @Override
     public void move(int moveDirection, int width, int height) {
-        System.out.println("x= " + x + " y= " + y);
+//        System.out.println("x= " + x + " y= " + y);
         if(direction != moveDirection){
             setDirection(moveDirection);
-        }
-        if(moveDirection == 1 && isValid(x, y - speed, width, height)){
-            setY(y - speed);
-        }else if(moveDirection == 2 && isValid(x + speed, y, width, height)){
-            setX(x + speed);
-        }else if(moveDirection == 3 && isValid(x, y + speed, width, height)){
-            setY(y + speed);
-        }else if(moveDirection == 4 && isValid(x - speed, y, width, height)){
-            setX(x - speed);
+        }else {
+            if (moveDirection == 1 && isValid(x, y - speed, width, height)) {
+                setY(y - speed);
+            } else if (moveDirection == 2 && isValid(x + speed, y, width, height)) {
+                setX(x + speed);
+            } else if (moveDirection == 3 && isValid(x, y + speed, width, height)) {
+                setY(y + speed);
+            } else if (moveDirection == 4 && isValid(x - speed, y, width, height)) {
+                setX(x - speed);
+            }
         }
     }
 
@@ -65,11 +70,33 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
 
     @Override
     public void fire() {
-
+        if(hasBullet()){
+            Bullet b = null;
+            switch(direction){
+                case 1:
+                    b = new Bullet(x+15, y-3, 3, true, 1, 4, direction, true);
+                    break;
+                case 2:
+                    b = new Bullet(x+31, y+15, 3, true, 1, 4, direction, true);
+                    break;
+                case 3:
+                    b = new Bullet(x+15, y+31, 3, true, 1, 4, direction, true);
+                    break;
+                case 4:
+                    b = new Bullet(x-3, y+15, 3, true, 1, 4, direction, true);
+                    break;
+            }
+            Bullets.add(b);
+            Thread t = new Thread(b);
+            t.start();
+        }
     }
 
     @Override
     public boolean hasBullet() {
+        if(Bullets.size() < bulletSize){
+            return true;
+        }
         return false;
     }
 

@@ -10,6 +10,9 @@ public class App extends JFrame{
         height = 500;
 
         mp = new MyPanel(width, height);
+        Thread t = new Thread(mp);
+        t.start();
+
         this.add(mp);
         this.addKeyListener(mp);
 
