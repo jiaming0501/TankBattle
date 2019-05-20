@@ -35,4 +35,5 @@ public class MovableObject extends GameObject{
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
 }

@@ -16,7 +16,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
     public MyPanel(int width, int height){
         this.width = width;
         this.height = height;
-        hero = new MyTank(200, 300, 2,true, 1, 2, 1, true, 5);
+        hero = new MyTank(200, 300, 2,true, 1, 2, 1, true, 5, 31);
 
         for(int i = 0; i < EnemyNum; i++){
             try{
@@ -24,7 +24,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
             }catch(Exception e){
                 e.printStackTrace();
             }
-            EnemyTank t = new EnemyTank((i+1)*50, 10, 4, true, 1, 2, 3, true,  3);
+            EnemyTank t = new EnemyTank((i+1)*50, 10, 4, true, 1, 2, 3, true,  3, 31);
             EnemyList.add(t);
             Thread thread = new Thread(t);
             thread.start();
@@ -35,18 +35,28 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
         super.paint(g);
         setBackground(Color.black);
         // show myTank
-        hero.show(g);
+        showMyTank(hero, g);
+        showEnemy(EnemyList, g);
+        //
+        boom(g);
+    }
+
+    public void showMyTank(MyTank hero, Graphics g){
+        if(hero.alive) {
+            hero.show(g);
+        }
         // show myTank's bullets
         for(int i = 0; i < hero.Bullets.size(); i++){
             Bullet b = hero.Bullets.get(i);
-            if(b.alive == true) {
+            if(b.alive) {
                 b.show(g);
             }else{
                 hero.Bullets.remove(b);
             }
         }
+    }
 
-        // show EnemyTank
+    public void showEnemy(java.util.List<EnemyTank> EnemyList, Graphics g){
         for(int i = 0; i < EnemyList.size(); i++){
             EnemyTank t1 = EnemyList.get(i);
             if(t1.alive) {
@@ -63,10 +73,29 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
                 EnemyList.remove(t1);
             }
         }
-
-
     }
-
+    public void boom(Graphics g){
+//        check myTank hit enemyTank
+        for(int i = 0; i < EnemyList.size(); i++){
+            EnemyTank emt = EnemyList.get(i);
+            for(int j = 0; j < hero.Bullets.size(); j++){
+                Bullet b = hero.Bullets.get(j);
+                if(emt.getHit(b)){
+                    emt.destroy(g);
+                }
+            }
+        }
+//         check EnemyTank hit me
+        for(int i = 0; i < EnemyList.size(); i++){
+            EnemyTank emt = EnemyList.get(i);
+            for(int j = 0; j < emt.Bullets.size(); j++){
+                Bullet b = emt.Bullets.get(j);
+                if(hero.getHit(b)){
+                    hero.destroy(g);
+                }
+            }
+        }
+    }
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -93,7 +122,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
     public void keyReleased(KeyEvent e) {
 
     }
-
     @Override
     public void run() {
         while(true){

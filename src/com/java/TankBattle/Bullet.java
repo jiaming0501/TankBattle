@@ -3,14 +3,15 @@ package src.com.java.TankBattle;
 import java.awt.*;
 
 public class Bullet extends MovableObject implements ObjFunction, MovableFunction, Runnable {
-
-    public Bullet(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive){
+    int size;
+    public Bullet(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int size){
         super(x, y, color, visible, life, speed, direction, alive);
+        this.size = size;
     }
     @Override
     public void show(Graphics g) {
         g.setColor(colorList.get(color));
-        g.fillOval(x, y, 3, 3);
+        g.fillOval(x, y, size, size);
     }
 
     @Override
@@ -24,7 +25,7 @@ public class Bullet extends MovableObject implements ObjFunction, MovableFunctio
         }else if(moveDirection == 4 && isValid(x - speed, y, width, height)){
             setX(x - speed);
         }else{
-            alive = false;
+            setAlive(false);
         }
     }
 
@@ -34,6 +35,11 @@ public class Bullet extends MovableObject implements ObjFunction, MovableFunctio
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void destroy(Graphics g) {
+
     }
 
     @Override
@@ -47,4 +53,5 @@ public class Bullet extends MovableObject implements ObjFunction, MovableFunctio
             move(direction, 500, 500);
         }
     }
+
 }

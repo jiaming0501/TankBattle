@@ -4,12 +4,17 @@ import java.awt.*;
 
 public class Tank extends MovableObject implements ObjFunction, MovableFunction, AttackFunction{
 
-    int bulletSize;
+    int bulletNum;
+    int tankSize;
     java.util.List<Bullet> Bullets = new LinkedList<Bullet>();
-
-    public Tank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int bulletSize){
+    Image img1, img2, img3;
+    public Tank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int bulletNum, int tankSize){
         super(x, y, color, visible, life, speed, direction, alive);
-        this.bulletSize = bulletSize;
+        this.bulletNum = bulletNum;
+        this.tankSize = tankSize;
+        img1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_1.gif"));
+        img2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_2.gif"));
+        img3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_3.gif"));
     }
     @Override
     public void show(Graphics g) {
@@ -17,14 +22,14 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
         if(alive) {
             switch (direction) {
                 case 1:
-                    g.fill3DRect(x, y, 7, 31, false); //left rect
-                    g.fill3DRect(x + 26, y, 7, 31, false); //right rect
+                    g.fill3DRect(x, y, 7, tankSize, false); //left rect
+                    g.fill3DRect(x + 26, y, 7, tankSize, false); //right rect
                     g.fill3DRect(x + 7, y + 5, 19, 21, false); //center rect
                     g.fill3DRect(x + 15, y, 3, 16, false);
                     break;
                 case 2:
-                    g.fill3DRect(x, y, 31, 7, false); //left rect
-                    g.fill3DRect(x, y + 26, 31, 7, false); //right rect
+                    g.fill3DRect(x, y, tankSize, 7, false); //left rect
+                    g.fill3DRect(x, y + 26, tankSize, 7, false); //right rect
                     g.fill3DRect(x + 5, y + 7, 21, 19, false); //center rect
                     g.fill3DRect(x + 15, y + 15, 16, 3, false);
                     break;
@@ -35,8 +40,8 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
                     g.fill3DRect(x + 15, y + 15, 3, 16, false); // gun
                     break;
                 case 4:
-                    g.fill3DRect(x, y, 31, 7, false); //left rect
-                    g.fill3DRect(x, y + 26, 31, 7, false); //right rect
+                    g.fill3DRect(x, y, tankSize, 7, false); //left rect
+                    g.fill3DRect(x, y + 26, tankSize, 7, false); //right rect
                     g.fill3DRect(x + 5, y + 7, 21, 19, false); //center rect
                     g.fill3DRect(x, y + 15, 16, 3, false);
                     break;
@@ -78,16 +83,16 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
             Bullet b = null;
             switch(direction){
                 case 1:
-                    b = new Bullet(x+15, y-3, 3, true, 1, 4, direction, true);
+                    b = new Bullet(x+15, y-3, 3, true, 1, 4, direction, true, 3);
                     break;
                 case 2:
-                    b = new Bullet(x+31, y+15, 3, true, 1, 4, direction, true);
+                    b = new Bullet(x+31, y+15, 3, true, 1, 4, direction, true, 3);
                     break;
                 case 3:
-                    b = new Bullet(x+15, y+31, 3, true, 1, 4, direction, true);
+                    b = new Bullet(x+15, y+31, 3, true, 1, 4, direction, true, 3);
                     break;
                 case 4:
-                    b = new Bullet(x-3, y+15, 3, true, 1, 4, direction, true);
+                    b = new Bullet(x-3, y+15, 3, true, 1, 4, direction, true, 3);
                     break;
             }
             Bullets.add(b);
@@ -97,9 +102,34 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
     }
 
     @Override
+    public void destroy(Graphics g) {
+        int i = 9;
+        while(i > 0){
+            if(i > 6){
+                 g.drawImage(img1, x, y, 33,33, null);
+            }else if(i > 3){
+                g.drawImage(img2, x, y, 33, 33, null);
+            }else{
+                g.drawImage(img3, x, y, 33, 33, null);
+            }
+            i --;
+        }
+    }
+
+    @Override
+    public boolean getHit(Bullet b) {
+        if(b.getX() > getX() - 3 && b.getX() < getX() + tankSize && b.getY() > getY() - 3 && b.getY() < getY() + tankSize){
+            setAlive(false);
+            b.setAlive(false);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean hasBullet() {
 
-        if(Bullets.size() < bulletSize){
+        if(Bullets.size() < bulletNum){
             return true;
         }
         return false;

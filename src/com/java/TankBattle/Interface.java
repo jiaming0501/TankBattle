@@ -3,6 +3,7 @@ import java.awt.*;
 
 interface ObjFunction{
     public void show(Graphics g);
+    public void destroy(Graphics g);
 }
 
 interface MovableFunction{
@@ -13,6 +14,7 @@ interface MovableFunction{
 interface AttackFunction{
     public void fire();
     public boolean hasBullet();
+    public boolean getHit(Bullet b);
     public void addBullet();
 }
 interface Interaction{

@@ -3,8 +3,8 @@ import java.util.*;
 
 public class EnemyTank extends Tank implements Runnable{
     Random rand;
-    public EnemyTank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int bulletSize){
-        super(x, y, color, visible, life, speed, direction, alive, bulletSize);
+    public EnemyTank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int bulletNum, int tankSize){
+        super(x, y, color, visible, life, speed, direction, alive, bulletNum, tankSize);
         rand = new Random();
     }
 
