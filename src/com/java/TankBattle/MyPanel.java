@@ -4,17 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.*;
 
 public class MyPanel extends JPanel implements KeyListener, Runnable{
     //declare myTank object
     int width, height;
+    int EnemyNum = 5;
     MyTank hero;
-
+    java.util.List<EnemyTank> EnemyList = new LinkedList<>();
 
     public MyPanel(int width, int height){
         this.width = width;
         this.height = height;
-        hero = new MyTank(200, 300, 2,true, 1, 2, 4, true, 5);
+        hero = new MyTank(200, 300, 2,true, 1, 2, 1, true, 5);
+
+        for(int i = 0; i < EnemyNum; i++){
+            try{
+                Thread.sleep(i*200);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            EnemyTank t = new EnemyTank((i+1)*50, 10, 4, true, 1, 2, 3, true,  3);
+            EnemyList.add(t);
+            Thread thread = new Thread(t);
+            thread.start();
+        }
     }
 
     public void paint(Graphics g){
@@ -31,6 +45,25 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
                 hero.Bullets.remove(b);
             }
         }
+
+        // show EnemyTank
+        for(int i = 0; i < EnemyList.size(); i++){
+            EnemyTank t1 = EnemyList.get(i);
+            if(t1.alive) {
+                t1.show(g);
+                for(int j = 0; j < t1.Bullets.size(); j++){
+                    Bullet bt = t1.Bullets.get(j);
+                    if(bt.alive){
+                        bt.show(g);
+                    }else{
+                        t1.Bullets.remove(bt);
+                    }
+                }
+            }else {
+                EnemyList.remove(t1);
+            }
+        }
+
 
     }
 

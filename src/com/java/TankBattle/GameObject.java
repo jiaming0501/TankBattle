@@ -18,6 +18,7 @@ public class GameObject {
         colorList.add(Color.RED);
         colorList.add(Color.YELLOW);
         colorList.add(Color.MAGENTA);
+        colorList.add(Color.GRAY);
     }
 
     public int getX() {

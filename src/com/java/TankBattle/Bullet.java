@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Bullet extends MovableObject implements ObjFunction, MovableFunction, Runnable {
 
-
     public Bullet(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive){
         super(x, y, color, visible, life, speed, direction, alive);
     }

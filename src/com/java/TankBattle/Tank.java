@@ -14,31 +14,33 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
     @Override
     public void show(Graphics g) {
         g.setColor(colorList.get(color));
-        switch(direction){
-            case 1:
-                g.fill3DRect(x, y, 7, 31, false); //left rect
-                g.fill3DRect(x+26, y, 7, 31, false); //right rect
-                g.fill3DRect(x+7, y+5, 19, 21, false); //center rect
-                g.fill3DRect(x+15, y, 3, 16, false);
-                break;
-            case 2:
-                g.fill3DRect(x, y, 31, 7, false); //left rect
-                g.fill3DRect(x, y+26, 31, 7, false); //right rect
-                g.fill3DRect(x+5, y+7, 21, 19, false); //center rect
-                g.fill3DRect(x+15, y+15, 16, 3, false);
-                break;
-            case 3:
-                g.fill3DRect(x, y, 7, 31, false); //left rect
-                g.fill3DRect(x+26, y, 7, 31, false); //right rect
-                g.fill3DRect(x+7, y+5, 19, 21, false); //center rect
-                g.fill3DRect(x+15, y+15, 3, 16, false); // gun
-                break;
-            case 4:
-                g.fill3DRect(x, y, 31, 7, false); //left rect
-                g.fill3DRect(x, y+26, 31, 7, false); //right rect
-                g.fill3DRect(x+5, y+7, 21, 19, false); //center rect
-                g.fill3DRect(x, y+15, 16, 3, false);
-                break;
+        if(alive) {
+            switch (direction) {
+                case 1:
+                    g.fill3DRect(x, y, 7, 31, false); //left rect
+                    g.fill3DRect(x + 26, y, 7, 31, false); //right rect
+                    g.fill3DRect(x + 7, y + 5, 19, 21, false); //center rect
+                    g.fill3DRect(x + 15, y, 3, 16, false);
+                    break;
+                case 2:
+                    g.fill3DRect(x, y, 31, 7, false); //left rect
+                    g.fill3DRect(x, y + 26, 31, 7, false); //right rect
+                    g.fill3DRect(x + 5, y + 7, 21, 19, false); //center rect
+                    g.fill3DRect(x + 15, y + 15, 16, 3, false);
+                    break;
+                case 3:
+                    g.fill3DRect(x, y, 7, 31, false); //left rect
+                    g.fill3DRect(x + 26, y, 7, 31, false); //right rect
+                    g.fill3DRect(x + 7, y + 5, 19, 21, false); //center rect
+                    g.fill3DRect(x + 15, y + 15, 3, 16, false); // gun
+                    break;
+                case 4:
+                    g.fill3DRect(x, y, 31, 7, false); //left rect
+                    g.fill3DRect(x, y + 26, 31, 7, false); //right rect
+                    g.fill3DRect(x + 5, y + 7, 21, 19, false); //center rect
+                    g.fill3DRect(x, y + 15, 16, 3, false);
+                    break;
+            }
         }
     }
 
@@ -70,7 +72,9 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
 
     @Override
     public void fire() {
+//        System.out.println("EnemyTank tries to fire");
         if(hasBullet()){
+//            System.out.println("fire");
             Bullet b = null;
             switch(direction){
                 case 1:
@@ -94,6 +98,7 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
 
     @Override
     public boolean hasBullet() {
+
         if(Bullets.size() < bulletSize){
             return true;
         }
