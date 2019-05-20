@@ -3,15 +3,18 @@ import java.awt.*;
 import javax.swing.*;
 
 public class App extends JFrame{
-
+    int width, height;
     MyPanel mp;
     public App(){
-        mp = new MyPanel();
+        width = 500;
+        height = 500;
+
+        mp = new MyPanel(width, height);
         this.add(mp);
         this.addKeyListener(mp);
 
 
-        this.setSize(500, 500);
+        this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }

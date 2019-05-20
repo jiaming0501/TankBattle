@@ -8,9 +8,9 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
         super(x, y, color, visible, life, speed, direction, alive);
     }
     @Override
-    public void show(int x, int y, int direct, int color, Graphics g) {
+    public void show(Graphics g) {
         g.setColor(colorList.get(color));
-        switch(direct){
+        switch(direction){
             case 1:
                 g.fill3DRect(x, y, 7, 31, false); //left rect
                 g.fill3DRect(x+26, y, 7, 31, false); //right rect
@@ -39,23 +39,27 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
     }
 
     @Override
-    public void move(int moveDirection) {
+    public void move(int moveDirection, int width, int height) {
+        System.out.println("x= " + x + " y= " + y);
         if(direction != moveDirection){
             setDirection(moveDirection);
         }
-        if(moveDirection == 1){
+        if(moveDirection == 1 && isValid(x, y - speed, width, height)){
             setY(y - speed);
-        }else if(moveDirection == 2){
+        }else if(moveDirection == 2 && isValid(x + speed, y, width, height)){
             setX(x + speed);
-        }else if(moveDirection == 3){
+        }else if(moveDirection == 3 && isValid(x, y + speed, width, height)){
             setY(y + speed);
-        }else{
+        }else if(moveDirection == 4 && isValid(x - speed, y, width, height)){
             setX(x - speed);
         }
     }
 
     @Override
-    public boolean isValid(int x, int y) {
+    public boolean isValid(int x, int y, int width, int height) {
+        if(x > 0 && x <= width - 31 && y > 0 && y <= height - 31){
+            return true;
+        }
         return false;
     }
 

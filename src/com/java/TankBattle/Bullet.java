@@ -7,17 +7,17 @@ public class Bullet extends MovableObject implements ObjFunction, MovableFunctio
         super(x, y, color, visible, life, speed, direction, alive);
     }
     @Override
-    public void show(int x, int y, int direct, int color, Graphics g) {
+    public void show(Graphics g) {
 
     }
 
     @Override
-    public void move(int moveDirection) {
+    public void move(int moveDirection, int width, int direction) {
 
     }
 
     @Override
-    public boolean isValid(int x, int y) {
+    public boolean isValid(int x, int y, int width, int height) {
         return false;
     }
 }

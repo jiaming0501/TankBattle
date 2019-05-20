@@ -2,12 +2,12 @@ package src.com.java.TankBattle;
 import java.awt.*;
 
 interface ObjFunction{
-    public void show(int x, int y, int direct, int color, Graphics g);
+    public void show(Graphics g);
 }
 
 interface MovableFunction{
-    public void move(int moveDirection);
-    public boolean isValid(int x, int y);
+    public void move(int moveDirection, int width, int height);
+    public boolean isValid(int x, int y, int width, int height);
 }
 
 interface AttackFunction{
