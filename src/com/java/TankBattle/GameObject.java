@@ -8,12 +8,14 @@ public class GameObject {
     java.util.List<Color> colorList = new ArrayList<>();
     Boolean visible;
     int life;
-    public GameObject(int x, int y, int color, boolean visible, int life){
+    int size;
+    public GameObject(int x, int y, int color, boolean visible, int life, int size){
         this.x = x;
         this.y = y;
         this.color = color;
         this.visible = visible;
         this.life = life;
+        this.size = size;
         colorList.add(Color.BLUE);
         colorList.add(Color.RED);
         colorList.add(Color.YELLOW);

@@ -5,13 +5,11 @@ import java.awt.*;
 public class Tank extends MovableObject implements ObjFunction, MovableFunction, AttackFunction{
 
     int bulletNum;
-    int tankSize;
     java.util.List<Bullet> Bullets = new LinkedList<Bullet>();
     Image img1, img2, img3;
-    public Tank(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int bulletNum, int tankSize){
-        super(x, y, color, visible, life, speed, direction, alive);
+    public Tank(int x, int y, int color, boolean visible, int life, int size, int speed, int direction, boolean alive, int bulletNum){
+        super(x, y, color, visible, life, size, speed, direction, alive);
         this.bulletNum = bulletNum;
-        this.tankSize = tankSize;
         img1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_1.gif"));
         img2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_2.gif"));
         img3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_3.gif"));
@@ -22,14 +20,14 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
         if(alive) {
             switch (direction) {
                 case 1:
-                    g.fill3DRect(x, y, 7, tankSize, false); //left rect
-                    g.fill3DRect(x + 26, y, 7, tankSize, false); //right rect
+                    g.fill3DRect(x, y, 7, size, false); //left rect
+                    g.fill3DRect(x + 26, y, 7, size, false); //right rect
                     g.fill3DRect(x + 7, y + 5, 19, 21, false); //center rect
                     g.fill3DRect(x + 15, y, 3, 16, false);
                     break;
                 case 2:
-                    g.fill3DRect(x, y, tankSize, 7, false); //left rect
-                    g.fill3DRect(x, y + 26, tankSize, 7, false); //right rect
+                    g.fill3DRect(x, y, size, 7, false); //left rect
+                    g.fill3DRect(x, y + 26, size, 7, false); //right rect
                     g.fill3DRect(x + 5, y + 7, 21, 19, false); //center rect
                     g.fill3DRect(x + 15, y + 15, 16, 3, false);
                     break;
@@ -40,8 +38,8 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
                     g.fill3DRect(x + 15, y + 15, 3, 16, false); // gun
                     break;
                 case 4:
-                    g.fill3DRect(x, y, tankSize, 7, false); //left rect
-                    g.fill3DRect(x, y + 26, tankSize, 7, false); //right rect
+                    g.fill3DRect(x, y, size, 7, false); //left rect
+                    g.fill3DRect(x, y + 26, size, 7, false); //right rect
                     g.fill3DRect(x + 5, y + 7, 21, 19, false); //center rect
                     g.fill3DRect(x, y + 15, 16, 3, false);
                     break;
@@ -69,8 +67,35 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
 
     @Override
     public boolean isValid(int x, int y, int width, int height) {
-        if(x > 0 && x <= width - 31 && y > 0 && y <= height - 31){
+        if(x > 0 && x <= width - size && y > 0 && y <= height - size){
             return true;
+        }
+        return false;
+    }
+
+
+    public boolean overlaps (java.util.List<GameObject> enemyList, int index, int direction) {
+        for(int i = 0; i < enemyList.size(); i++){
+            if(i != index) {
+                GameObject emt = enemyList.get(i);
+                if(direction == 1) {
+                    if (x < emt.x + emt.size && x + size > emt.x && y - speed < emt.y + emt.size && y + size - speed > emt.y) {
+                        return true;
+                    }
+                }else if(direction == 2){
+                    if (x + speed < emt.x + emt.size && x + size + speed > emt.x && y < emt.y + emt.size && y + size > emt.y) {
+                        return true;
+                    }
+                }else if(direction == 3){
+                    if (x < emt.x + emt.size && x + size > emt.x && y + speed < emt.y + emt.size && y + size + speed > emt.y) {
+                        return true;
+                    }
+                }else{
+                    if (x - speed < emt.x + emt.size && x + size - speed > emt.x && y < emt.y + emt.size && y + size > emt.y) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
@@ -83,16 +108,16 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
             Bullet b = null;
             switch(direction){
                 case 1:
-                    b = new Bullet(x+15, y-3, 3, true, 1, 4, direction, true, 3);
+                    b = new Bullet(x+15, y-3, 3, true, 1, 3,4, direction, true);
                     break;
                 case 2:
-                    b = new Bullet(x+31, y+15, 3, true, 1, 4, direction, true, 3);
+                    b = new Bullet(x+31, y+15, 3, true, 1, 3, 4, direction, true);
                     break;
                 case 3:
-                    b = new Bullet(x+15, y+31, 3, true, 1, 4, direction, true, 3);
+                    b = new Bullet(x+15, y+31, 3, true, 1, 3, 4, direction, true);
                     break;
                 case 4:
-                    b = new Bullet(x-3, y+15, 3, true, 1, 4, direction, true, 3);
+                    b = new Bullet(x-3, y+15, 3, true, 1, 3, 4, direction, true);
                     break;
             }
             Bullets.add(b);
@@ -118,7 +143,7 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
 
     @Override
     public boolean getHit(Bullet b) {
-        if(b.getX() > getX() - 3 && b.getX() < getX() + tankSize && b.getY() > getY() - 3 && b.getY() < getY() + tankSize){
+        if(b.getX() > getX() - 3 && b.getX() < getX() + size && b.getY() > getY() - 3 && b.getY() < getY() + size){
             setAlive(false);
             b.setAlive(false);
             return true;

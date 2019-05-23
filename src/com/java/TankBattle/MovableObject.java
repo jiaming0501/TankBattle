@@ -5,8 +5,8 @@ public class MovableObject extends GameObject{
     int direction;
     boolean alive;
 
-    public MovableObject(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive){
-        super(x, y, color, visible, life);
+    public MovableObject(int x, int y, int color, boolean visible, int life, int size, int speed, int direction, boolean alive){
+        super(x, y, color, visible, life, size);
         this.speed = speed;
         this.direction = direction;
         this.alive = alive;

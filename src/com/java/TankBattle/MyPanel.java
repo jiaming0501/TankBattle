@@ -16,15 +16,16 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
     public MyPanel(int width, int height){
         this.width = width;
         this.height = height;
-        hero = new MyTank(200, 300, 2,true, 1, 2, 1, true, 5, 31);
-
+        hero = new MyTank(200, 300, 2,true, 1, 31, 2, 1, true, 5);
+        EnemyTank.add0bject(hero);
         for(int i = 0; i < EnemyNum; i++){
             try{
                 Thread.sleep(i*200);
             }catch(Exception e){
                 e.printStackTrace();
             }
-            EnemyTank t = new EnemyTank((i+1)*50, 10, 4, true, 1, 2, 3, true,  3, 31);
+            EnemyTank t = new EnemyTank((i+1)*80, 10, 4, true, 1, 31, 2, 3, true,  3);
+            EnemyTank.add0bject(t);
             EnemyList.add(t);
             Thread thread = new Thread(t);
             thread.start();
@@ -71,6 +72,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
                 }
             }else {
                 EnemyList.remove(t1);
+                EnemyTank.remove0bject(t1);
             }
         }
     }

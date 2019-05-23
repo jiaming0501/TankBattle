@@ -3,10 +3,8 @@ package src.com.java.TankBattle;
 import java.awt.*;
 
 public class Bullet extends MovableObject implements ObjFunction, MovableFunction, Runnable {
-    int size;
-    public Bullet(int x, int y, int color, boolean visible, int life, int speed, int direction, boolean alive, int size){
-        super(x, y, color, visible, life, speed, direction, alive);
-        this.size = size;
+    public Bullet(int x, int y, int color, boolean visible, int life, int size, int speed, int direction, boolean alive){
+        super(x, y, color, visible, life, size, speed, direction, alive);
     }
     @Override
     public void show(Graphics g) {
