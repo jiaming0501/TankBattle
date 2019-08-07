@@ -105,13 +105,13 @@ public class MyPanel extends JPanel implements KeyListener, Runnable{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_W){
+        if(e.getKeyCode() == KeyEvent.VK_W && !hero.overlaps(0, 1)){
             hero.move(1, width, height);
-        }else if(e.getKeyCode() == KeyEvent.VK_D){
+        }else if(e.getKeyCode() == KeyEvent.VK_D && !hero.overlaps(0, 2)){
             hero.move(2, width, height);
-        }else if(e.getKeyCode() == KeyEvent.VK_S) {
+        }else if(e.getKeyCode() == KeyEvent.VK_S && !hero.overlaps(0, 3)) {
             hero.move(3, width, height);
-        }else if(e.getKeyCode() == KeyEvent.VK_A) {
+        }else if(e.getKeyCode() == KeyEvent.VK_A && !hero.overlaps(0, 4)) {
             hero.move(4, width, height);
         }
         if(e.getKeyCode() == KeyEvent.VK_J){

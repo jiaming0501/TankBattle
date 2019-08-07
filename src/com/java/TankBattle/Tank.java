@@ -1,18 +1,27 @@
 package src.com.java.TankBattle;
+import javax.imageio.ImageIO;
 import java.util.*;
 import java.awt.*;
+import java.io.*;
 
 public class Tank extends MovableObject implements ObjFunction, MovableFunction, AttackFunction{
 
     int bulletNum;
     java.util.List<Bullet> Bullets = new LinkedList<Bullet>();
+    public static java.util.List<GameObject> objList = new LinkedList<>();
     Image img1, img2, img3;
     public Tank(int x, int y, int color, boolean visible, int life, int size, int speed, int direction, boolean alive, int bulletNum){
         super(x, y, color, visible, life, size, speed, direction, alive);
         this.bulletNum = bulletNum;
-        img1 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_1.gif"));
-        img2 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_2.gif"));
-        img3 = Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/img/bomb_3.gif"));
+
+        try{
+            img1 = ImageIO.read(new File("E:/CS/MyJava/TankBattle/img/bomb_1.gif"));
+            img2 = ImageIO.read(new File("E:/CS/MyJava/TankBattle/img/bomb_2.gif"));
+            img3 = ImageIO.read(new File("E:/CS/MyJava/TankBattle/img/bomb_3.gif"));
+        }   catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
     @Override
     public void show(Graphics g) {
@@ -74,24 +83,24 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
     }
 
 
-    public boolean overlaps (java.util.List<GameObject> enemyList, int index, int direction) {
-        for(int i = 0; i < enemyList.size(); i++){
+    public boolean overlaps (int index, int direction) {
+        for(int i = 0; i < objList.size(); i++){
             if(i != index) {
-                GameObject emt = enemyList.get(i);
+                GameObject emt = objList.get(i);
                 if(direction == 1) {
-                    if (x < emt.x + emt.size && x + size > emt.x && y - speed < emt.y + emt.size && y + size - speed > emt.y) {
+                    if (x <= emt.x + emt.size && x + size >= emt.x && y - speed <= emt.y + emt.size && y + size - speed >= emt.y) {
                         return true;
                     }
                 }else if(direction == 2){
-                    if (x + speed < emt.x + emt.size && x + size + speed > emt.x && y < emt.y + emt.size && y + size > emt.y) {
+                    if (x + speed <= emt.x + emt.size && x + size + speed >= emt.x && y <= emt.y + emt.size && y + size >= emt.y) {
                         return true;
                     }
                 }else if(direction == 3){
-                    if (x < emt.x + emt.size && x + size > emt.x && y + speed < emt.y + emt.size && y + size + speed > emt.y) {
+                    if (x <= emt.x + emt.size && x + size >= emt.x && y + speed <= emt.y + emt.size && y + size + speed >= emt.y) {
                         return true;
                     }
                 }else{
-                    if (x - speed < emt.x + emt.size && x + size - speed > emt.x && y < emt.y + emt.size && y + size > emt.y) {
+                    if (x - speed <= emt.x + emt.size && x + size - speed >= emt.x && y <= emt.y + emt.size && y + size >= emt.y) {
                         return true;
                     }
                 }
@@ -164,5 +173,11 @@ public class Tank extends MovableObject implements ObjFunction, MovableFunction,
     public void addBullet() {
 
     }
-
+    public static void add0bject(GameObject obj){
+        objList.add(obj);
+//        System.out.println("objList size: " + objList.size());
+    }
+    public static void remove0bject(GameObject obj){
+        objList.remove(obj);
+    }
 }
